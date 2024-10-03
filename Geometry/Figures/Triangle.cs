@@ -4,9 +4,39 @@ namespace DnKR.Geometry;
 
 public class Triangle : Figure
 {
-    public double A { get; set; }
-    public double B { get; set; }
-    public double C { get; set; }
+    private double _a;
+    private double _b;
+    private double _c;
+
+    public double A
+    {
+        get => _a;
+        set
+        {
+            _a = value;
+            ValidateSides();
+        }
+    }
+
+    public double B
+    {
+        get => _b;
+        set
+        {
+            _b = value;
+            ValidateSides();
+        }
+    }
+
+    public double C
+    {
+        get => _c;
+        set
+        {
+            _c = value;
+            ValidateSides();
+        }
+    }
 
     /// <summary>
     /// Class representing triangle.
@@ -17,12 +47,11 @@ public class Triangle : Figure
     /// <exception cref="InvalidTriangleSidesException"></exception>
     public Triangle(double a, double b, double c)
     {
-        A = a;
-        B = b;
-        C = c;
-        if(A + B <= C || A + C <= B || B + C <= A)
-            throw new InvalidTriangleSidesException();
+        _a = a;
+        _b = b;
+        _c = c;
 
+        ValidateSides();
         Update();
     }
 
@@ -45,8 +74,17 @@ public class Triangle : Figure
         Area = Math.Sqrt(semiPerimeter * (semiPerimeter - A) * (semiPerimeter - B) * (semiPerimeter - C));
     }
 
+    protected void ValidateSides()
+    {
+        if (_a <= 0 || _b <= 0 || _c <= 0)
+            throw new ArgumentException("Sides must be positive.");
+
+        if (!CheckTriangleInequality())
+            throw new InvalidTriangleSidesException();
+    }
+
     protected bool CheckTriangleInequality()
     {
-        return A + B > C && A + C > B && B + C > A;
+        return _a + _b > C && _a + _c > _b && _b + _c > _a;
     }
 }

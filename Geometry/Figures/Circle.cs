@@ -2,9 +2,21 @@
 
 public class Circle : Figure
 {
-    public double Radius { get; set; }
-
     protected const double _pi = 3.14;
+    private double _radius;
+
+    public double Radius
+    {
+        get => _radius;
+        set
+        {
+            if (value > 0)
+                _radius = value;
+            else
+                _radius = 0.1;
+        }
+    }
+
 
     /// <summary>
     /// Class representing circle.

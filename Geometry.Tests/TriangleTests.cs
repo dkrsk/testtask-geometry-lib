@@ -65,4 +65,19 @@ public class TriangleTests
 
         Assert.AreEqual(expected, tr.Perimeter);
     }
+
+    [TestMethod]
+    [ExpectedException(typeof(DnKR.Geometry.Exceptions.InvalidTriangleSidesException))]
+    public void InequalityChangeProperty_3and4and5to1and3and5_ExceptionThrowed()
+    {
+        double a = 3;
+        double b = 4;
+        double c = 5;
+        double newA = 1;
+
+        var tr = new Triangle(a, b, c);
+
+        tr.A = newA;
+        _ = tr.Area;
+    }
 }
